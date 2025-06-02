@@ -300,6 +300,21 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.tool-card h3 a {
+    color: inherit; /* Inherits color from h3 */
+    text-decoration: none;
+}
+.tool-card h3 a:hover {
+    text-decoration: underline; /* Optional: underline on hover */
+}
+
+/* Adjust pricing info style in card if needed */
+.tool-card .pricing-info { /* Example class, if you wrap pricing info in a div/p with this class */
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.75rem;
+}
+
 /* Styling for streamlit-option-menu (navbar) - requires inspection for classes */
 /* You might need to inspect the generated HTML to find the correct selectors
    Example (these are guesses, adjust after inspecting):
