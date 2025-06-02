@@ -1,332 +1,489 @@
-/* Import Google Font */
+/* assets/css/style.css */
+
+/* --- Google Font Import --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Global Styles */
+/* --- Global Styles & Variables (Optional CSS Variables) --- */
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --color-primary: #667eea;
+    --color-secondary: #764ba2;
+    --color-accent: #f093fb;
+    --color-text-dark: #2c3e50;
+    --color-text-light: #ffffff;
+    --color-text-muted: #718096;
+    --color-background-light: #f0f2f5;
+    --color-background-card: #ffffff;
+    --border-radius-soft: 8px;
+    --border-radius-medium: 12px;
+    --border-radius-large: 16px;
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.05);
+    --shadow-medium: 0 6px 18px rgba(0,0,0,0.08);
+    --shadow-strong: 0 8px 25px rgba(0,0,0,0.12);
+}
+
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f0f2f5; /* Light base background */
-    color: #333;
+    font-family: var(--font-primary);
+    background-color: var(--color-background-light);
+    color: var(--color-text-dark);
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    line-height: 1.5; /* Default line height */
 }
 
-/* Main App Container - Streamlit injects its own structure, target specific elements */
-/* The class of the main app container for Streamlit is usually .main .block-container */
-/* However, for global effects like background, we can apply to body or stApp */
-
-/* Gradient Definitions */
-.primary-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-.secondary-gradient {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+/* Streamlit App Container */
+.stApp {
+    /* You can apply a global background here if desired */
+    /* background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%); */
 }
 
-/* Typography */
+/* Main Block Container (Streamlit's content area) */
+.main .block-container {
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+    padding-left: 2rem; /* Adjust for wider screens */
+    padding-right: 2rem;
+}
+
+
+/* --- Typography & Headings --- */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
-    color: #2c3e50; /* Darker shade for headings */
+    font-family: var(--font-primary);
+    color: var(--color-text-dark);
+    margin-top: 0; /* Reset default margins */
+}
+/* Streamlit's default title styling can be overridden if needed */
+/* .stTitle { color: var(--color-primary); } */
+
+
+/* --- Keyframe Animations --- */
+@keyframes slideInDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes slideInUp { from { transform: translateY(50px) scale(0.95); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.03); opacity: 0.9; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-7px); } }
+@keyframes tada {
+  from { transform: scale3d(1, 1, 1); } 10%, 20% { transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg); }
+  30%, 50%, 70%, 90% { transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, 3deg); }
+  40%, 60%, 80% { transform: scale3d(1.05, 1.05, 1.05) rotate3d(0, 0, 1, -3deg); } to { transform: scale3d(1, 1, 1); }
 }
 
-/* Animated Title Base */
-.animated-title {
+/* Animation Utility Classes (prefixed with anim-) */
+.anim-slideInDown { animation: slideInDown 0.7s ease-out forwards; }
+.anim-slideInUp { animation: slideInUp 0.6s ease-out forwards; }
+.anim-fadeIn { animation: fadeIn 1s ease-in-out forwards; }
+.anim-fadeOut { animation: fadeOut 1s ease-in-out forwards; }
+.anim-pulse { animation: pulse 1.5s infinite ease-in-out; }
+.anim-bounce { animation: bounce 1s ease; }
+.anim-tada { animation: tada 1s ease; }
+
+
+/* --- Styled UI Components (from style_utils.py) --- */
+
+/* Page Header (used on Dashboard and Add Tools) */
+.app-page-header {
+    padding: 3rem 1.5rem;
+    margin-bottom: 2.5rem;
+    border-radius: var(--border-radius-large);
+    text-align: center;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: var(--color-text-light);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.35); /* Stronger shadow */
+}
+.app-page-icon {
+    font-size: 3rem; /* Larger icon */
+    display: block;
+    margin-bottom: 0.75rem;
+    opacity: 0.9;
+}
+.app-page-header .app-page-title { /* Targets h1 if style_utils generates h1 */
+    font-size: 3rem; /* Prominent title */
     font-weight: 700;
-    color: white;
-    padding: 1rem 0;
+    color: var(--color-text-light) !important;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.app-page-header .app-page-subtitle { /* Targets p if style_utils generates p */
+    font-size: 1.3rem; /* Larger subtitle */
+    font-weight: 300;
+    color: rgba(255,255,255,0.9) !important;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.7;
+    max-width: 700px; /* Constrain subtitle width */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Section Title */
+.app-section-title-wrapper { /* alignment and margin_bottom set inline by Python */ }
+.app-section-title { /* Targets h2 if style_utils generates h2 */
+    font-size: 1.85rem; /* Slightly larger */
+    font-weight: 600;
+    color: var(--color-text-dark);
+    padding-bottom: 0.6rem;
+    border-bottom: 3px solid var(--color-primary); /* Thicker accent border */
+    display: inline-block;
+    margin-bottom: 0; /* Handled by wrapper */
+}
+.app-section-icon {
+    margin-right: 0.6rem;
+    font-size: 1.05em; /* Relative to h2 */
+    color: var(--color-primary); /* Icon color matches accent */
+}
+
+/* Metric Display */
+.app-metric-card {
+    background-color: var(--color-background-card);
+    padding: 1.75rem; /* More padding */
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-medium);
     text-align: center;
-    margin-bottom: 1rem;
-}
-
-.animated-subtitle {
-    font-weight: 400;
-    color: #e0e0e0; /* Lighter subtitle color */
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 1.2rem;
-}
-
-/* Keyframe Animations */
-@keyframes slideInDown {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideInUp {
-    from {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-15px); }
-    60% { transform: translateY(-7px); }
-}
-
-/* Animation Classes */
-.slideInDown { animation: slideInDown 0.7s ease-out forwards; }
-.slideInUp { animation: slideInUp 0.7s ease-out forwards; }
-.fadeIn { animation: fadeIn 1s ease-in forwards; }
-.pulse:hover { animation: pulse 0.5s infinite alternate; } /* Example for button hover */
-.bounce { animation: bounce 1s ease; }
-
-
-/* Hero Section (Dashboard) */
-.hero-section {
-    padding: 3rem 1rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-.hero-title {
-    font-size: 3rem; /* Default desktop size */
-    font-weight: 700;
-    color: white;
-}
-.hero-subtitle {
-    font-size: 1.3rem; /* Default desktop size */
-    color: #f0f0f0;
-    margin-top: 0.5rem;
-}
-
-/* Card Design */
-.tool-card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    padding: 1rem 0;
-}
-
-.tool-card {
-    background-color: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all 0.3s ease;
+    height: 100%; /* For equal height in st.columns */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Pushes content to top and bottom */
-    min-height: 220px; /* Ensure cards have a consistent minimum height */
+    justify-content: center; /* Vertically center content */
 }
-
-.tool-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+.app-metric-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-strong);
 }
-
-.tool-card h3 {
-    font-size: 1.4rem;
-    color: #34495e; /* Slightly different color for card titles */
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    word-break: break-word; /* Prevent long names from breaking layout */
+.app-metric-icon {
+    font-size: 2.2rem;
+    color: var(--color-primary);
+    margin-bottom: 0.6rem;
 }
-
-.tool-card .category-badge {
-    display: inline-block;
-    background-color: #e9ecef; /* Light grey badge */
-    color: #495057; /* Darker text for badge */
-    padding: 0.3em 0.6em;
-    border-radius: 0.25rem;
-    font-size: 0.85rem;
+.app-metric-label {
+    font-size: 0.95rem; /* Slightly larger */
+    color: var(--color-text-muted);
+    margin-bottom: 0.3rem;
     font-weight: 500;
-    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px; /* More spacing */
+}
+.app-metric-value {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+.app-metric-value .app-metric-value-text { /* Target the inner span/div for value */
+    font-size: 2.5rem; /* Larger value */
+    font-weight: 700;
+    color: var(--color-text-dark);
+    line-height: 1.1;
+}
+.app-metric-value .app-metric-unit { /* Target the inner span/div for unit */
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    margin-left: 0.4rem;
 }
 
-.tool-card p.purpose {
-    font-size: 0.95rem;
-    color: #555;
-    flex-grow: 1; /* Allows purpose to take available space */
-    line-height: 1.6;
+/* Empty State Message */
+.app-empty-state-container {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    background-color: #f8f9fc; /* Slightly different light bg */
+    border-radius: var(--border-radius-large);
+    margin: 2.5rem auto;
+    max-width: 650px;
+    box-shadow: var(--shadow-soft);
+    border: 1px dashed #d3dce6; /* Dashed border */
+}
+.app-empty-state-message {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    margin-top: 1.2rem;
+    margin-bottom: 1.8rem;
+    line-height: 1.65;
+}
+.app-empty-state-container .stButton > button { /* Style Streamlit button in empty state */
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%) !important;
+    color: var(--color-text-light) !important;
+    border: none !important;
+    font-weight: 500 !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: var(--border-radius-soft) !important;
+}
+
+
+/* --- Dashboard AI Tool Card Styles (Compact Battle Card Style) --- */
+.tool-card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); /* Slightly adjusted min width */
+    gap: 1.5rem; /* Increased gap slightly */
+    padding: 2rem 0; /* Padding for the overall container */
+    max-width: 1500px; /* Allow wider container */
+    margin: 0 auto;
+}
+
+.tool-card-wrapper { /* This class applied by st.markdown's div */
+    color: var(--color-text-light);
+    border-radius: var(--border-radius-large); /* Consistent large radius */
+    padding: 1.25rem; /* Slightly more padding */
+    box-shadow: var(--shadow-strong);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 400px; /* Base min height */
+    position: relative; /* For absolute positioning of button placeholder if needed */
+}
+/* Card Variants for Backgrounds */
+.tool-card-wrapper.variant-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); } /* Primary */
+.tool-card-wrapper.variant-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); } /* Accent Pink/Red */
+.tool-card-wrapper.variant-3 { background: linear-gradient(135deg, #00b894 0%, #00cec9 100%); } /* Teal/Green */
+.tool-card-wrapper.variant-4 { background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%); } /* Orange/Yellow */
+.tool-card-wrapper.variant-5 { background: linear-gradient(135deg, #485461 0%, #2d3436 100%); } /* Dark Grey */
+
+.tool-card-wrapper:hover {
+    transform: translateY(-5px) scale(1.015); /* Slightly more pronounced hover */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+.tool-card-wrapper .card-header-front { text-align: center; margin-bottom: 0.75rem; }
+.tool-card-wrapper .tool-name-front {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--color-text-light);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+    word-break: break-word;
+}
+.tool-card-wrapper .tool-name-front a { color: inherit !important; text-decoration: none; }
+.tool-card-wrapper .tool-name-front a:hover { text-decoration: underline; }
+.tool-card-wrapper .tool-name-front .link-icon { font-size: 0.8em; opacity: 0.7; margin-left: 4px; }
+
+.tool-card-wrapper .tool-category-badge {
+    background: rgba(255,255,255,0.18); /* More visible badge */
+    color: var(--color-text-light);
+    padding: 0.35rem 0.9rem;
+    border-radius: 15px;
+    font-size: 0.78rem;
+    display: inline-block;
     margin-bottom: 1rem;
-    /* Limit text lines */
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.tool-card-wrapper .tool-icon-front {
+    font-size: 3.2rem;
+    margin: 0.5rem auto 1rem auto; /* Adjusted margin */
+    opacity: 0.95;
+    text-align: center;
+}
+
+.tool-card-wrapper .tool-key-benefit-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: rgba(255,255,255,0.95);
+    text-align: center;
+}
+.tool-card-wrapper .tool-key-benefit-text {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    margin-bottom: 1rem;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Show up to 3 lines */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-height: 4.35em; /* Approx 3 lines */
 }
-.tool-card .details {
+
+.tool-card-wrapper .tool-stats-front {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    margin-top: auto; /* Pushes stats and button area to bottom */
+}
+.tool-card-wrapper .tool-stat { text-align: center; flex: 1; padding: 0 0.3rem; }
+.tool-card-wrapper .tool-stat-label { font-size: 0.78rem; opacity: 0.8; margin-bottom: 0.15rem; }
+.tool-card-wrapper .tool-stat-value { font-size: 1.05rem; font-weight: 600; word-break: break-word; }
+
+/* Purpose details area within the card (optional, if you add it to markdown) */
+.tool-card-wrapper .tool-purpose-details-area {
+    margin-top: 0.85rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    /* flex-grow: 1; Remove if button should always be at bottom */
+    display: none; /* Hidden by default, manage visibility with logic */
+}
+.tool-card-wrapper .tool-purpose-text-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 0.25rem; }
+.tool-card-wrapper .tool-purpose-full-text { font-size: 0.82rem; line-height: 1.45; color: rgba(255,255,255,0.8); max-height: 70px; overflow-y: auto; }
+.tool-card-wrapper .tool-purpose-full-text::-webkit-scrollbar { width: 5px; }
+.tool-card-wrapper .tool-purpose-full-text::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.25); border-radius: 2.5px; }
+
+/* Button styling for st.link_button when it's a sibling to .tool-card-wrapper (within the same st.column) */
+/* This selector needs to be specific to the dashboard page context if .stButton is used elsewhere */
+/* Assuming cards are in columns: div[data-testid="stVerticalBlock"] > .stButton > button */
+/* Or, more generally if a column only contains one card and its button: */
+div[data-testid="stVerticalBlock"] > div > div > div > .stButton > button { /* This is a guess, inspect element for accuracy */
+    background-color: rgba(255,255,255,0.25) !important;
+    color: var(--color-text-light) !important;
+    border: 1px solid rgba(255,255,255,0.6) !important;
+    border-radius: var(--border-radius-soft) !important;
+    font-weight: 500 !important;
+    width: 100%;
+    margin-top: 0.75rem; /* Space above button, relative to the markdown card */
+    padding: 0.6rem 1rem !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+div[data-testid="stVerticalBlock"] > div > div > div > .stButton > button:hover {
+    background-color: rgba(255,255,255,0.35) !important;
+    border-color: var(--color-text-light) !important;
+}
+.no-website-message-card { /* If st.link_button is not rendered */
+    text-align: center;
     font-size: 0.8rem;
-    color: #7f8c8d; /* Muted color for uploader/date */
-    text-align: right;
-    margin-top: auto; /* Pushes details to the bottom */
+    color: rgba(255,255,255,0.65);
+    padding: 0.6rem 0;
+    margin-top: 0.75rem; /* Similar spacing to where button would be */
+    background-color: rgba(0,0,0,0.1); /* Subtle background for the message itself */
+    border-radius: var(--border-radius-soft);
 }
 
 
-/* Metric Card Styling */
-.metric-card {
-    background: white;
-    padding: 1.5rem; /* Default padding */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+/* --- Add Tool Page Specific Styles --- */
+.form-wrapper-card {
+    background-color: var(--color-background-card);
+    padding: 2.5rem; /* Generous padding */
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-medium);
+    border: 1px solid #e0e4e8;
+}
+.info-column-card {
+    background-color: #f9fafc; /* Lighter than main bg */
+    padding: 2rem;
+    border-radius: var(--border-radius-large);
+    box-shadow: var(--shadow-soft);
+    height: 100%;
+    border: 1px solid #e0e4e8;
+}
+.info-column-card ul { font-size: 0.9rem; line-height: 1.7; color: #5a677b; }
+.info-column-card ul li strong { color: var(--color-primary); font-weight: 600; }
+.form-wrapper-card .stForm { padding: 0; } /* Remove default form padding */
+.form-wrapper-card .stTextInput,
+.form-wrapper-card .stSelectbox, /* Selectbox uses stSelectbox not stSelectBox */
+.form-wrapper-card .stTextArea {
+    margin-bottom: 1.3rem; /* Spacing between form fields */
+}
+.form-wrapper-card .stButton > button { /* Submit button on Add Tool page */
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%) !important;
+    color: var(--color-text-light) !important;
+    font-weight: 600 !important;
+    padding: 0.8rem 1.8rem !important; /* Larger padding */
+    border-radius: var(--border-radius-soft) !important;
+    border: none !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.form-wrapper-card .stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(102, 126, 234, 0.45) !important; /* Shadow matches primary color */
+}
+
+/* Filter Bar on Dashboard */
+.filter-bar-container { /* If you wrap filters in a div with this class */
+    background-color: var(--color-background-card);
+    padding: 1.25rem 1.75rem;
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 2.5rem; /* Space below filter bar */
+}
+.filter-bar-container .stTextInput > div > div > input,
+.filter-bar-container .stSelectbox > div > div { /* stSelectbox for Streamlit > 1.0 */
+    border-radius: var(--border-radius-soft);
+    border: 1px solid #cbd5e0; /* Softer border */
+}
+.filter-bar-container .stSelectbox > div > div:focus-within {
+    border-color: var(--color-primary); /* Accent on focus */
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+
+/* --- Footer --- */
+.app-footer { /* If you wrap footer in a div with this class */
     text-align: center;
-    margin-bottom: 1rem; /* Space between metric cards if stacked */
-}
-.metric-card h4 {
-    margin-top: 0;
-    font-size: 1rem;
-    color: #555;
-    margin-bottom: 0.5rem;
-}
-.metric-card .metric-value {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #667eea; /* Use primary gradient start color */
-}
-.metric-card .metric-value.bounce {
-    display: inline-block; /* Needed for transform to apply correctly */
-}
-
-
-/* Form Styling (Add Tools Page) */
-.form-container {
-    background-color: #ffffff;
-    padding: 2.5rem; /* Default padding */
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.page-header {
-    padding: 2rem 1rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    color: white;
-    text-align: center;
-}
-.page-header h2 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: white;
-    margin: 0;
-}
-
-/* Info/Tips Column on Add Tools Page */
-.info-column {
-    padding: 1.5rem;
-    background-color: #f8f9fa; /* Very light gray */
-    border-radius: 8px;
-    height: 100%; /* Try to match form height */
-}
-.info-column h4 {
-    color: #764ba2; /* Use primary gradient end color */
-    margin-top: 0;
-}
-.info-column ul {
-    padding-left: 20px;
-    font-size: 0.95rem;
-    color: #555;
-}
-.info-column li {
-    margin-bottom: 0.5rem;
-}
-
-/* Footer */
-.footer {
-    padding: 2rem 1rem;
-    color: white;
-    text-align: center;
-    font-size: 0.9rem;
+    padding: 2.5rem 1rem;
     margin-top: 3rem;
+    background-color: var(--color-text-dark); /* Dark footer */
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
 }
-.footer p {
-    margin: 0.2rem 0;
-}
+.app-footer p { margin: 0.3rem 0; }
+.app-footer a { color: var(--color-accent); text-decoration: none; }
+.app-footer a:hover { text-decoration: underline; }
 
-/* Table styling for Recent Activity */
-/* Streamlit uses internal classes, direct styling is tricky.
-   We can influence container if needed.
-   Use st.dataframe's width/height params.
-*/
 
-/* Responsive Design */
-@media (max-width: 992px) { /* Tablet */
+/* --- Responsive Design --- */
+@media (max-width: 1200px) {
     .tool-card-container {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Allow cards to get a bit narrower */
     }
-    .hero-title { font-size: 2.5rem; }
-    .hero-subtitle { font-size: 1.1rem; }
-    .page-header h2 { font-size: 2rem; }
+}
+
+@media (max-width: 992px) { /* Tablet */
+    .main .block-container { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .app-page-header .app-page-title { font-size: 2.5rem; }
+    .app-page-header .app-page-subtitle { font-size: 1.15rem; }
+    .app-section-title { font-size: 1.6rem; }
+    .tool-card-container {
+        grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+        gap: 1.2rem;
+    }
+    .flip-card, .tool-card-wrapper { min-height: 380px; } /* Adjust if using flip-card class elsewhere */
 }
 
 @media (max-width: 768px) { /* Mobile */
-    .hero-title { font-size: 2.2rem; }
-    .hero-subtitle { font-size: 1rem; }
-    .page-header h2 { font-size: 1.8rem; }
-    .form-container { padding: 1.5rem; }
-    .metric-card { padding: 1rem; }
-    .metric-card .metric-value { font-size: 1.8rem; }
+    .main .block-container { padding-left: 1rem; padding-right: 1rem; padding-top:1rem; }
+    .app-page-header { padding: 2rem 1rem; margin-bottom: 2rem; }
+    .app-page-header .app-page-icon { font-size: 2.5rem; }
+    .app-page-header .app-page-title { font-size: 2rem; }
+    .app-page-header .app-page-subtitle { font-size: 1rem; }
+    .app-section-title { font-size: 1.4rem; }
 
-    /* Stack columns on mobile for Add Tools page if using st.columns */
-    /* Streamlit's st.columns stack by default on mobile,
-       but if we have custom column divs, we'd need:
-       .form-column, .info-column { flex-basis: 100%; margin-bottom: 1rem; }
-    */
+    .tool-card-container {
+        grid-template-columns: 1fr; /* Single column for cards */
+        gap: 1.2rem;
+    }
+    .flip-card, .tool-card-wrapper { min-height: 370px; /* Shorter on mobile */ }
+    .tool-card-wrapper .tool-name-front { font-size: 1.25rem; }
+    .tool-card-wrapper .tool-key-benefit-text { -webkit-line-clamp: 2; min-height: 2.9em; }
+    .app-metric-card { padding: 1.25rem; }
+    .app-metric-value .app-metric-value-text { font-size: 2rem; }
+
+    .form-wrapper-card, .info-column-card { padding: 1.5rem; }
+    .filter-bar-container { padding: 1rem; margin-bottom: 1.5rem; }
+    /* Stack filter columns on mobile if using st.columns for them */
+    .filter-bar-container .stMultiSelect, /* Ensure filter elements are full width */
+    .filter-bar-container .stTextInput,
+    .filter-bar-container .stSelectbox {
+        width: 100% !important;
+    }
 }
 
 @media (max-width: 576px) { /* Small Mobile */
-    .hero-title { font-size: 1.8rem; }
-    .hero-subtitle { font-size: 0.9rem; }
-    .tool-card-container {
-        grid-template-columns: 1fr; /* Single column */
+    .app-page-header .app-page-title { font-size: 1.8rem; }
+    .app-page-header .app-page-subtitle { font-size: 0.9rem; }
+    .flip-card, .tool-card-wrapper {
+        min-height: auto; /* Allow more flexibility */
+        height: auto;
+        padding-bottom: 1rem; /* Ensure padding at bottom */
     }
-     .tool-card {
-        min-height: auto; /* Allow cards to shrink */
-    }
-    .tool-card p.purpose {
-        -webkit-line-clamp: 2; /* Show fewer lines on small screens */
-    }
+     .tool-card-wrapper .tool-stats-front { margin-top: 1rem; } /* Ensure space if height is auto */
+    .tool-card-wrapper .tool-name-front { font-size: 1.15rem; }
+    .tool-card-wrapper .tool-stat-value { font-size: 0.95rem; }
+    .app-metric-value .app-metric-value-text { font-size: 1.8rem; }
 }
 
-.tool-card h3 a {
-    color: inherit; /* Inherits color from h3 */
-    text-decoration: none;
-}
-.tool-card h3 a:hover {
-    text-decoration: underline; /* Optional: underline on hover */
-}
-
-/* Adjust pricing info style in card if needed */
-.tool-card .pricing-info { /* Example class, if you wrap pricing info in a div/p with this class */
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 0.75rem;
-}
-
-/* Styling for streamlit-option-menu (navbar) - requires inspection for classes */
-/* You might need to inspect the generated HTML to find the correct selectors
-   Example (these are guesses, adjust after inspecting):
-div[data-testid="stHorizontalBlock"] > div[role="radiogroup"] {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 0.5rem;
-    border-radius: 8px;
-}
-div[data-testid="stHorizontalBlock"] > div[role="radiogroup"] label {
-    color: white !important;
-}
-div[data-testid="stHorizontalBlock"] > div[role="radiogroup"] label:hover {
-    background-color: rgba(255,255,255,0.2) !important;
-}
-*/
+/* Streamlit specific overrides if necessary - use with caution and inspect element */
+/* Example: Adjusting width of selectbox dropdown panel */
+/* div[data-baseweb="popover"] { max-width: 400px !important; } */
